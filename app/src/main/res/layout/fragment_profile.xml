@@ -35,7 +35,7 @@
 
                 <TextView
                     android:id="@+id/tvName"
-                    android:text="Cao Van Quan"
+                    android:text="User"
                     android:textStyle="bold"
                     android:textSize="18sp"
                     android:textColor="#000000"
@@ -44,7 +44,7 @@
 
                 <TextView
                     android:id="@+id/tvEmail"
-                    android:text="caovanquan.973@gmail.com"
+                    android:text="user@gmail.com"
                     android:textSize="14sp"
                     android:textColor="#666666"
                     android:layout_height="wrap_content"
