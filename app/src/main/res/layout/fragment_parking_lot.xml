@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F8F9FA"
-    tools:context=".fragments.HomeFragment">
+    tools:context=".fragments.ParkingLotFragment">
 
     <!-- App Bar Layout with Collapsing Toolbar -->
     <com.google.android.material.appbar.AppBarLayout
@@ -18,7 +18,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
-            android:layout_height="280dp"
+            android:layout_height="200dp"
             app:contentScrim="@drawable/header_gradient"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:titleEnabled="false">
@@ -46,34 +46,26 @@
                 android:padding="24dp"
                 app:layout_collapseMode="parallax">
 
-                <!-- Welcome Text -->
+                <!-- Title -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chào mừng bạn đến với"
-                    android:textColor="#C8E6C9"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="4dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ParkEasy"
+                    android:text="Danh sách bãi đỗ xe"
                     android:textColor="@android:color/white"
-                    android:textSize="32sp"
+                    android:textSize="24sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tìm và đặt chỗ đỗ xe nhanh chóng"
+                    android:text="Tìm kiếm và đặt chỗ dễ dàng"
                     android:textColor="#C8E6C9"
                     android:textSize="16sp"
                     android:gravity="center"
                     android:layout_marginBottom="24dp" />
 
-                <!-- Quick Search -->
+                <!-- Search Bar -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
@@ -96,17 +88,23 @@
                             android:src="@drawable/ic_search"
                             app:tint="#4CAF50" />
 
-                        <TextView
+                        <EditText
+                            android:id="@+id/searchEditText"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_marginStart="12dp"
-                            android:text="Tìm bãi đỗ xe gần bạn..."
+                            android:layout_marginEnd="12dp"
+                            android:hint="Tìm kiếm bãi đỗ xe..."
                             android:textColor="#2E7D32"
-                            android:textSize="16sp" />
+                            android:textColorHint="#81C784"
+                            android:textSize="16sp"
+                            android:background="@null"
+                            android:inputType="text"
+                            android:maxLines="1" />
 
                         <com.google.android.material.button.MaterialButton
-                            android:id="@+id/quickSearchBtn"
+                            android:id="@+id/searchBtn"
                             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
@@ -144,7 +142,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Quick Actions Section -->
+            <!-- Filter Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -154,7 +152,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Thao tác nhanh"
+                    android:text="Bộ lọc tìm kiếm"
                     android:textColor="#2E7D32"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -166,9 +164,9 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/findNearbyCard"
+                        android:id="@+id/filterDistanceCard"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="80dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="8dp"
                         android:clickable="true"
@@ -183,310 +181,236 @@
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:padding="16dp">
-
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:src="@drawable/ic_location"
-                                app:tint="#4CAF50"
-                                android:layout_marginBottom="8dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Gần tôi"
-                                android:textColor="#2E7D32"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/mapViewCard"
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:layout_weight="1"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="2dp"
-                        app:cardBackgroundColor="@android:color/white"
-                        app:rippleColor="#C8E6C9">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:padding="16dp">
-
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:src="@drawable/ic_map"
-                                app:tint="#4CAF50"
-                                android:layout_marginBottom="8dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Bản đồ"
-                                android:textColor="#2E7D32"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/favoritesCard"
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:layout_weight="1"
-                        android:layout_marginStart="8dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="2dp"
-                        app:cardBackgroundColor="@android:color/white"
-                        app:rippleColor="#C8E6C9">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:padding="16dp">
-
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:src="@drawable/ic_star"
-                                app:tint="#4CAF50"
-                                android:layout_marginBottom="8dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Yêu thích"
-                                android:textColor="#2E7D32"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <!-- Recent Bookings Section -->
-            <!-- Parking Lots Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="12dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Bãi đỗ xe gần bạn"
-                        android:textColor="#2E7D32"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/viewAllParkingLotsText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Xem tất cả"
-                        android:textColor="#4CAF50"
-                        android:textSize="14sp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:padding="8dp" />
-
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/nearbyParkingRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
-                    tools:listitem="@layout/item_parking_lot_modern" />
-
-            </LinearLayout>
-
-            <!-- Recent Bookings Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="12dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Đặt chỗ gần đây"
-                        android:textColor="#2E7D32"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/viewAllBookingsText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Xem tất cả"
-                        android:textColor="#4CAF50"
-                        android:textSize="14sp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:padding="8dp" />
-
-                </LinearLayout>
-
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/recentBookingsRecyclerView"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:nestedScrollingEnabled="false"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    tools:listitem="@layout/item_recent_booking" />-->
-
-            </LinearLayout>
-
-            <!-- Features Section -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="@android:color/white">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tại sao chọn ParkEasy?"
-                        android:textColor="#2E7D32"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="16dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:layout_marginBottom="12dp">
+                            android:padding="12dp">
 
                             <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:src="@drawable/ic_camera"
-                                app:tint="#4CAF50" />
+                                android:src="@drawable/ic_location"
+                                app:tint="#4CAF50"
+                                android:layout_marginBottom="4dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="12dp"
-                                android:text="Bảo mật cao với camera giám sát 24/7"
-                                android:textColor="#666666"
-                                android:textSize="14sp" />
+                                android:text="Khoảng cách"
+                                android:textColor="#2E7D32"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/filterPriceCard"
+                        android:layout_width="0dp"
+                        android:layout_height="80dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="2dp"
+                        app:cardBackgroundColor="@android:color/white"
+                        app:rippleColor="#C8E6C9">
+
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:layout_marginBottom="12dp">
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="12dp">
 
                             <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/ic_money"
-                                app:tint="#4CAF50" />
+                                app:tint="#4CAF50"
+                                android:layout_marginBottom="4dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="12dp"
-                                android:text="Giá cả hợp lý và minh bạch"
-                                android:textColor="#666666"
-                                android:textSize="14sp" />
+                                android:text="Giá cả"
+                                android:textColor="#2E7D32"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/filterAvailabilityCard"
+                        android:layout_width="0dp"
+                        android:layout_height="80dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="2dp"
+                        app:cardBackgroundColor="@android:color/white"
+                        app:rippleColor="#C8E6C9">
+
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="12dp">
 
                             <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:src="@drawable/ic_my_location"
-                                app:tint="#4CAF50" />
+                                android:src="@drawable/ic_available"
+                                app:tint="#4CAF50"
+                                android:layout_marginBottom="4dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="12dp"
-                                android:text="Tìm kiếm dễ dàng theo vị trí"
-                                android:textColor="#666666"
-                                android:textSize="14sp" />
+                                android:text="Có chỗ"
+                                android:textColor="#2E7D32"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
-                    </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
 
                 </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Results Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Kết quả tìm kiếm"
+                        android:textColor="#2E7D32"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/resultCountText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="125 bãi đỗ xe"
+                        android:textColor="#4CAF50"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <!-- RecyclerView Container -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="400dp">
+
+                    <!-- Loading State -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewAllParking"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_parking_lot_modern" />
+
+                    <LinearLayout
+                        android:id="@+id/loadingLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        android:minHeight="200dp">
+
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            app:indicatorColor="#4CAF50" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Đang tải danh sách..."
+                            android:textColor="#666666"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <!-- Empty State -->
+                    <LinearLayout
+                        android:id="@+id/emptyStateLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="32dp"
+                        android:visibility="gone"
+                        android:minHeight="300dp">
+
+                        <ImageView
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginBottom="24dp"
+                            android:alpha="0.6"
+                            android:src="@drawable/ic_empty_parking"
+                            app:tint="#C8E6C9" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="Không tìm thấy bãi đỗ xe"
+                            android:textColor="#2E7D32"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="24dp"
+                            android:gravity="center"
+                            android:text="Thử điều chỉnh bộ lọc hoặc tìm kiếm từ khóa khác"
+                            android:textColor="#666666"
+                            android:textSize="16sp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/retryBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thử lại"
+                            android:backgroundTint="#4CAF50"
+                            app:icon="@drawable/ic_refresh"
+                            app:iconTint="@android:color/white" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </LinearLayout>
 
             <!-- Bottom Spacing -->
             <View
@@ -499,39 +423,14 @@
 
     <!-- Floating Action Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabQuickBook"
+        android:id="@+id/fabMapView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_search"
+        android:src="@drawable/ic_map"
         android:backgroundTint="#4CAF50"
         app:layout_anchor="@id/appBarLayout"
         app:layout_anchorGravity="bottom|end"
         app:tint="@android:color/white" />
-
-    <!-- Loading State -->
-    <LinearLayout
-        android:id="@+id/loadingLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:background="@color/bg_green">
-
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:indicatorColor="#4CAF50" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Đang tải dữ liệu..."
-            android:textColor="#666666"
-            android:textSize="16sp" />
-
-    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
