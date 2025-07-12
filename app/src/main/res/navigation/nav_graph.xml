@@ -9,9 +9,14 @@
         android:name="com.tencongty.projectprm.fragments.HomeFragment"
         android:label="Home" />
     <fragment
-        android:id="@+id/bookingFragment"
-        android:name="com.tencongty.projectprm.fragments.BookingFragment"
-        android:label="Booking" />
+        android:id="@+id/parkingFragment"
+        android:name="com.tencongty.projectprm.fragments.ParkingLotFragment"
+        android:label="Parking">
+        <action
+            android:id="@+id/action_parkingFragment_to_parkingDetailFragment"
+            app:destination="@id/parkingDetailFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.tencongty.projectprm.fragments.HistoryFragment"
@@ -20,4 +25,9 @@
         android:id="@+id/profileFragment"
         android:name="com.tencongty.projectprm.fragments.ProfileFragment"
         android:label="Profile" />
+
+    <fragment
+        android:id="@+id/parkingDetailFragment"
+        android:name="com.tencongty.projectprm.fragments.ParkingLotDetailFragment"
+        android:label="Parking Lot Detail" />
 </navigation>

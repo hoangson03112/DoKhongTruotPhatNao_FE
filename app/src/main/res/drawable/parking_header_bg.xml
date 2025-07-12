@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="400dp"
+    android:height="200dp"
+    android:viewportWidth="400"
+    android:viewportHeight="200">
+
+    <!-- Sky Background -->
+    <path
+        android:fillColor="#87CEEB"
+        android:pathData="M0,0h400v200H0z"/>
+
+    <!-- Buildings Silhouette -->
+    <path
+        android:fillColor="#4A90E2"
+        android:pathData="M0,120h80v80H0z"/>
+    <path
+        android:fillColor="#357ABD"
+        android:pathData="M80,100h60v100H80z"/>
+    <path
+        android:fillColor="#4A90E2"
+        android:pathData="M140,110h70v90H140z"/>
+    <path
+        android:fillColor="#357ABD"
+        android:pathData="M210,90h50v110H210z"/>
+    <path
+        android:fillColor="#4A90E2"
+        android:pathData="M260,105h80v95H260z"/>
+    <path
+        android:fillColor="#357ABD"
+        android:pathData="M340,115h60v85H340z"/>
+
+    <!-- Parking Area -->
+    <path
+        android:fillColor="#F0F0F0"
+        android:pathData="M50,140h300v40H50z"/>
+
+    <!-- Parking Lines -->
+    <path
+        android:fillColor="#CCCCCC"
+        android:pathData="M70,145h20v30H70z"/>
+    <path
+        android:fillColor="#CCCCCC"
+        android:pathData="M110,145h20v30H110z"/>
+    <path
+        android:fillColor="#CCCCCC"
+        android:pathData="M150,145h20v30H150z"/>
+    <path
+        android:fillColor="#CCCCCC"
+        android:pathData="M190,145h20v30H190z"/>
+    <path
+        android:fillColor="#CCCCCC"
+        android:pathData="M230,145h20v30H230z"/>
+    <path
+        android:fillColor="#CCCCCC"
+        android:pathData="M270,145h20v30H270z"/>
+    <path
+        android:fillColor="#CCCCCC"
+        android:pathData="M310,145h20v30H310z"/>
+
+    <!-- Cars -->
+    <path
+        android:fillColor="#FF6B6B"
+        android:pathData="M72,147h16v26H72z"/>
+    <path
+        android:fillColor="#4ECDC4"
+        android:pathData="M152,147h16v26H152z"/>
+    <path
+        android:fillColor="#45B7D1"
+        android:pathData="M232,147h16v26H232z"/>
+</vector>
