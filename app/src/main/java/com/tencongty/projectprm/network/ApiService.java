@@ -4,14 +4,15 @@ import com.google.gson.JsonObject;
 import com.tencongty.projectprm.models.BookingRequest;
 import com.tencongty.projectprm.models.LoginRequest;
 import com.tencongty.projectprm.models.ParkingLot;
+import com.tencongty.projectprm.models.ParkingOwnerRegisterRequest;
 import com.tencongty.projectprm.models.RegisterRequest;
-
+import com.tencongty.projectprm.models.Reservation;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -23,6 +24,8 @@ public interface ApiService {
     @POST("/api/auth/register")
     Call<JsonObject> register(@Body RegisterRequest registerRequest);
 
+    @POST("/api/auth/owner/register")
+    Call<JsonObject> registerParkingOwner(@Body ParkingOwnerRegisterRequest request);
     @GET("api/auth/logout")
     Call<JsonObject> logout();
   
@@ -46,5 +49,11 @@ public interface ApiService {
     @DELETE("api/bookings/{id}")
     Call<JsonObject> cancelBooking(@Path("id") String id);
 
+    @GET("/api/owner/parking-lots")
+    Call<List<ParkingLot>> getParkingLots(@Header("Authorization") String token);
+
+    // Thêm bên trong interface ApiService:
+    @GET("/api/owner/{id}/reservations")
+    Call<List<Reservation>> getReservationsByOwner(@Path("id") String ownerId);
 
 }

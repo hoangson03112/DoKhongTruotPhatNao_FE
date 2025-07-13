@@ -1,0 +1,20 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_parking_owner"
+    app:startDestination="@id/nav_parking_list">
+
+    <fragment
+        android:id="@+id/nav_parking_list"
+        android:name="com.tencongty.projectprm.fragments.ParkingListFragment"
+        android:label="Bãi đỗ" />
+
+    <fragment
+        android:id="@+id/nav_add_parking"
+        android:name="com.tencongty.projectprm.fragments.AddParkingFragment"
+        android:label="Thêm bãi đỗ" />
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.tencongty.projectprm.fragments.OwnerProfileFragment"
+        android:label="Hồ sơ" />
+</navigation>
