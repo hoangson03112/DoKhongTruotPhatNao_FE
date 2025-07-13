@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#F8F9FB">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Xin chào, Quản trị viên!"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#333"
+            android:layout_marginBottom="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!-- Các khối thống kê -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Tổng người dùng -->
+            <include layout="@layout/item_admin_stat_card"
+                android:id="@+id/stat_users" />
+
+            <!-- Tổng chủ bãi -->
+            <include layout="@layout/item_admin_stat_card"
+                android:id="@+id/stat_owners" />
+
+            <!-- Tổng bãi đỗ -->
+            <include layout="@layout/item_admin_stat_card"
+                android:id="@+id/stat_parking" />
+
+            <!-- Tổng đơn đặt chỗ -->
+            <include layout="@layout/item_admin_stat_card"
+                android:id="@+id/stat_bookings" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

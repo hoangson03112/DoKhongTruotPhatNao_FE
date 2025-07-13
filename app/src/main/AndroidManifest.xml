@@ -31,6 +31,12 @@
         </activity>
 
 
+        <activity
+            android:name=".activities.admin.AdminHomeActivity"
+            android:exported="true">
+        </activity>
+
+
     </application>
 
 </manifest>
