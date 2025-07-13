@@ -3,6 +3,7 @@ package com.tencongty.projectprm.fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,16 +27,23 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.tencongty.projectprm.R;
 import com.tencongty.projectprm.adapters.ParkingImageAdapter;
+import com.tencongty.projectprm.models.BookingRequest;
 import com.tencongty.projectprm.models.ParkingLot;
 import com.tencongty.projectprm.models.ParkingPricing;
 import com.tencongty.projectprm.network.ApiClient;
 import com.tencongty.projectprm.network.ApiService;
-import com.tencongty.projectprm.utils.LocationHelper; // Sử dụng LocationHelper để tính khoảng cách
+import com.tencongty.projectprm.utils.LocationHelper;
+import com.tencongty.projectprm.fragments.BookingDialog; // Import BookingDialog
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -264,6 +272,7 @@ public class ParkingLotDetailFragment extends Fragment implements OnMapReadyCall
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(parkingLocation, 15));
     }
 
+    // Phương thức đặt chỗ xe được cập nhật để sử dụng BookingDialog
     private void bookParkingLot() {
         if (parkingLotDetail == null) return;
 
@@ -272,17 +281,67 @@ public class ParkingLotDetailFragment extends Fragment implements OnMapReadyCall
             return;
         }
 
-        // Navigate to booking fragment or activity
-        // You can implement booking logic here
-        Bundle bundle = new Bundle();
-        bundle.putString("parkingLotJson", new Gson().toJson(parkingLotDetail));
-        bundle.putDouble("userLat", userLat);
-        bundle.putDouble("userLng", userLng);
+        // Hiển thị BookingDialog
+        BookingDialog bookingDialog = new BookingDialog(getContext(), new BookingDialog.BookingListener() {
+            @Override
+            public void onBookingConfirmed(String licensePlate, Date checkInDateTime, Date checkOutDateTime) {
+                // Xử lý khi người dùng xác nhận booking
+                handleBookingConfirmed(licensePlate, checkInDateTime, checkOutDateTime);
+            }
+        });
 
-        // Navigate to booking fragment
-        // NavHostFragment.findNavController(this).navigate(R.id.bookingFragment, bundle);
+        bookingDialog.show();
+    }
 
-        Toast.makeText(getContext(), "Chức năng đặt chỗ sẽ được triển khai", Toast.LENGTH_SHORT).show();
+    // Phương thức xử lý khi booking được xác nhận
+    private void handleBookingConfirmed(String licensePlate, Date checkInDateTime, Date checkOutDateTime) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+        // Gửi booking request lên server
+        submitBookingToServer(licensePlate, checkInDateTime, checkOutDateTime);
+    }
+
+    // Phương thức gửi booking request lên server
+    private void submitBookingToServer(String licensePlate, Date checkInDateTime, Date checkOutDateTime) {
+        // Tạo booking request object
+         BookingRequest request = new BookingRequest();
+         request.setParkingLotId(parkingLotId);
+         request.setLicensePlate(licensePlate);
+         request.setCheckInDateTime(checkInDateTime);
+         request.setCheckOutDateTime(checkOutDateTime);
+
+        // Gửi request lên server
+         apiService.createBooking(request).enqueue(new Callback<JsonObject>() {
+             @Override
+             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                 if (response.isSuccessful()) {
+                     Toast.makeText(getContext(), "Đặt chỗ thành công!", Toast.LENGTH_SHORT).show();
+                     fetchParkingLotDetail();
+                     // Sau khi đặt chỗ thành công
+                     requireActivity().getSupportFragmentManager()
+                             .beginTransaction()
+                             .replace(R.id.nav_host_fragment, new HistoryFragment())
+                             .addToBackStack(null)
+                             .commit();
+
+                 } else {
+                     Toast.makeText(getContext(), "Đặt chỗ thất bại. Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
+
+                     try {
+                         Log.e("BOOKING_ERROR", response.errorBody().string());
+                     } catch (Exception e) {
+                         e.printStackTrace();
+                     }
+                 }
+             }
+
+
+             @Override
+             public void onFailure(Call<JsonObject> call, Throwable t) {
+                 Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+             }
+         });
+
+
     }
 
     private void showLoading(boolean show) {

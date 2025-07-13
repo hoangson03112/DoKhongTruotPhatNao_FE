@@ -1,6 +1,7 @@
 package com.tencongty.projectprm.network;
 
 import com.google.gson.JsonObject;
+import com.tencongty.projectprm.models.BookingRequest;
 import com.tencongty.projectprm.models.LoginRequest;
 import com.tencongty.projectprm.models.ParkingLot;
 import com.tencongty.projectprm.models.RegisterRequest;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -35,6 +37,14 @@ public interface ApiService {
 
     @GET("/api/parking-lots/{parkingLotId}")
     Call<ParkingLot> getParkingLotDetail(@Path("parkingLotId") String parkingLotId);
+
+    @GET("api/bookings")
+    Call<JsonObject> getBookings();
+
+    @POST("api/bookings")
+    Call<JsonObject> createBooking(@Body BookingRequest booking);
+    @DELETE("api/bookings/{id}")
+    Call<JsonObject> cancelBooking(@Path("id") String id);
 
 
 }
