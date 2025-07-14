@@ -3,7 +3,6 @@ package com.tencongty.projectprm.activities.common;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,20 +14,22 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
 import com.tencongty.projectprm.MainActivity;
 import com.tencongty.projectprm.R;
+import com.tencongty.projectprm.activities.admin.AdminHomeActivity;
+import com.tencongty.projectprm.activities.parkingowner.ParkingOwner_MainActivity;
+import com.tencongty.projectprm.activities.parkingowner.ParkingOwner_RegisterActivity;
 import com.tencongty.projectprm.models.LoginRequest;
 import com.tencongty.projectprm.network.ApiClient;
 import com.tencongty.projectprm.network.ApiService;
 import com.tencongty.projectprm.utils.TokenManager;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText etEmail, etPassword;
     private MaterialButton btnSignIn;
     private TextView tvForgotPassword, tvSignUp;
+    private TextView tvOwnerSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,18 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // Bắt sự kiện Đăng ký chủ bãi đỗ
+        tvOwnerSignUp = findViewById(R.id.tv_owner_sign_up);
+        tvOwnerSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, ParkingOwner_RegisterActivity.class);
+                Toast.makeText(LoginActivity.this, "Đi tới màn hình đăng ký chủ bãi đỗ", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void handleSignIn() {
@@ -89,37 +102,28 @@ public class LoginActivity extends AppCompatActivity {
         ApiService apiService = ApiClient.getClient(getApplicationContext()).create(ApiService.class);
         Call<JsonObject> call = apiService.login(loginRequest);
 
-        call.enqueue(new Callback<JsonObject>() {
+        call.enqueue(new retrofit2.Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     JsonObject res = response.body();
-                    Log.d("API_LOGIN_RESPONSE", res.toString());
-
                     if (res.get("success").getAsBoolean()) {
                         String accessToken = res.get("token").getAsString();
+                        JsonObject userObj = res.getAsJsonObject("user");
+                        String role = userObj.get("role").getAsString();
 
                         // Lưu token
                         TokenManager tokenManager = new TokenManager(getApplicationContext());
                         tokenManager.saveToken(accessToken);
 
-                        // ✅ Lấy vai trò từ phản hồi
-                        JsonObject user = res.getAsJsonObject("user");
-                        String role = user.get("role").getAsString();
-
-                        // ✅ Điều hướng theo vai trò
+                        // Chuyển màn hình tùy theo vai trò
                         Intent intent;
-                        switch (role.toLowerCase()) {
-                            case "admin":
-                                intent = new Intent(LoginActivity.this, com.tencongty.projectprm.activities.admin.AdminHomeActivity.class);
-                                break;
-                            case "owner":
-                                intent = new Intent(LoginActivity.this, com.tencongty.projectprm.MainActivity.class);
-                                break;
-                            case "user":
-                            default:
-                                intent = new Intent(LoginActivity.this, com.tencongty.projectprm.MainActivity.class);
-                                break;
+                        if ("parking_owner".equals(role)) {
+                            intent = new Intent(LoginActivity.this, ParkingOwner_MainActivity.class);
+                        } else if("admin".equals(role)) {
+                            intent = new Intent(LoginActivity.this, AdminHomeActivity.class);
+                        } else {
+                            intent = new Intent(LoginActivity.this, MainActivity.class);
                         }
 
                         Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
@@ -134,15 +138,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
 
+
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
-
         // startActivity(new Intent(LoginActivity.this, MainActivity.class));
         // finish();
     }
 }
-
