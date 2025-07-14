@@ -22,6 +22,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.tencongty.projectprm.R;
 import com.tencongty.projectprm.adapters.ParkingLotAdapter;
@@ -67,9 +68,8 @@ public class HomeFragment extends Fragment {
             bundle.putDouble("userLat", currentUserLat);
             bundle.putDouble("userLng", currentUserLon);
 
-            // Sử dụng Navigation để chuyển Fragment
-            NavHostFragment.findNavController(this)
-                    .navigate(R.id.parkingFragment, bundle);
+            BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottomNavigation);
+            bottomNav.setSelectedItemId(R.id.parkingFragment);
         });
 
 

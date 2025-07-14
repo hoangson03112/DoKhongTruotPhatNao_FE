@@ -18,7 +18,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="280dp"
             app:contentScrim="@drawable/header_gradient"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:titleEnabled="false">
@@ -50,74 +50,74 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
                     android:text="Chào mừng bạn đến với"
                     android:textColor="#C8E6C9"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:layout_marginBottom="4dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
                     android:text="ParkEasy"
                     android:textColor="@android:color/white"
                     android:textSize="32sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    android:gravity="center"
                     android:text="Tìm và đặt chỗ đỗ xe nhanh chóng"
                     android:textColor="#C8E6C9"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_marginBottom="24dp" />
 
-                <!-- Quick Search -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    app:cardCornerRadius="28dp"
-                    app:cardElevation="4dp">
+<!--                &lt;!&ndash; Quick Search &ndash;&gt;-->
+<!--                <com.google.android.material.card.MaterialCardView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="56dp"-->
+<!--                    app:cardCornerRadius="28dp"-->
+<!--                    app:cardElevation="4dp"-->
+<!--                    android:layout_marginStart="16dp"-->
+<!--                    android:layout_marginEnd="16dp">-->
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="8dp">
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:gravity="center_vertical"-->
+<!--                        android:paddingStart="20dp"-->
+<!--                        android:paddingEnd="8dp">-->
 
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_search"
-                            app:tint="#4CAF50" />
+<!--                        <ImageView-->
+<!--                            android:layout_width="24dp"-->
+<!--                            android:layout_height="24dp"-->
+<!--                            android:src="@drawable/ic_search"-->
+<!--                            app:tint="#4CAF50" />-->
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:layout_weight="1"
-                            android:text="Tìm bãi đỗ xe gần bạn..."
-                            android:textColor="#2E7D32"
-                            android:textSize="16sp" />
+<!--                        <TextView-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:layout_marginStart="12dp"-->
+<!--                            android:text="Tìm bãi đỗ xe gần bạn..."-->
+<!--                            android:textColor="#2E7D32"-->
+<!--                            android:textSize="16sp" />-->
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/quickSearchBtn"
-                            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:backgroundTint="#4CAF50"
-                            android:text="Tìm"
-                            android:textSize="14sp"
-                            app:cornerRadius="20dp" />
+<!--                        <com.google.android.material.button.MaterialButton-->
+<!--                            android:id="@+id/quickSearchBtn"-->
+<!--                            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="40dp"-->
+<!--                            android:text="Tìm"-->
+<!--                            android:textSize="14sp"-->
+<!--                            android:backgroundTint="#4CAF50"-->
+<!--                            app:cornerRadius="20dp" />-->
 
-                    </LinearLayout>
+<!--                    </LinearLayout>-->
 
-                </com.google.android.material.card.MaterialCardView>
+<!--                </com.google.android.material.card.MaterialCardView>-->
 
             </LinearLayout>
 
