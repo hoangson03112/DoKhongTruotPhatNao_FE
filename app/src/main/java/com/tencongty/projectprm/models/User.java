@@ -1,11 +1,11 @@
 package com.tencongty.projectprm.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 
-import com.google.gson.annotations.SerializedName;
 
-public class User {
+public class User implements Serializable {
     private String _id;
     private String username;
     private String email;

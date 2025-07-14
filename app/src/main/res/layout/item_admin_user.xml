@@ -38,7 +38,7 @@
                     android:id="@+id/user_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@username"
+                    android:text="UserName"
                     android:textSize="14sp"
                     android:textColor="@android:color/darker_gray"
                     android:layout_marginTop="2dp" />
@@ -47,7 +47,7 @@
                     android:id="@+id/user_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="email@example.com"
+                    android:text="Email"
                     android:textSize="14sp"
                     android:textColor="@android:color/darker_gray"
                     android:layout_marginTop="2dp" />

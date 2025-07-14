@@ -1,6 +1,9 @@
 package com.tencongty.projectprm.models;
 
-public class Owner {
+import java.io.Serializable;
+import java.util.List;
+
+public class Owner implements Serializable {
     private String _id;
     private String username;
     private String email;
@@ -10,8 +13,10 @@ public class Owner {
     private String verificationStatus;
     private boolean isDeleted;
     private String lastLogin;
+    private List<String> ownerVerificationImages;
 
-    public Owner(String _id, String username, String email, String name, String phone, String role, String verificationStatus, boolean isDeleted, String lastLogin) {
+
+    public Owner(String _id, String username, String email, String name, String phone, String role, String verificationStatus, boolean isDeleted, String lastLogin, List<String> ownerVerificationImages) {
         this._id = _id;
         this.username = username;
         this.email = email;
@@ -21,6 +26,15 @@ public class Owner {
         this.verificationStatus = verificationStatus;
         this.isDeleted = isDeleted;
         this.lastLogin = lastLogin;
+        this.ownerVerificationImages = ownerVerificationImages;
+    }
+
+    public List<String> getOwnerVerificationImages() {
+        return ownerVerificationImages;
+    }
+
+    public void setOwnerVerificationImages(List<String> ownerVerificationImages) {
+        this.ownerVerificationImages = ownerVerificationImages;
     }
 
     public String getId() {
