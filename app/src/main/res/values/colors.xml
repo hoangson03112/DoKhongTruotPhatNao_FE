@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="bg_green">#34A853</color>
-<<<<<<< Updated upstream
-    <color name="bg_red">#F44336</color>">
+    <color name="bg_red">#F44336</color>
     <color name="bg_yellow">#FFEB3B</color>
     <color name="bg_blue">#2196F3</color>
     <color name="bg_orange">#FF9800</color>
@@ -24,7 +23,4 @@
     <color name="bg_light_brown">#D7CCC8</color>
     <color name="bg_light_grey">#E0E0E0</color>
     <color name="bg_light_white">#F5F5F5</color>
-=======
-    <color name="bg_red">#F44336</color>>
->>>>>>> Stashed changes
 </resources>

@@ -4,27 +4,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tencongty.projectprm.R;
-import com.tencongty.projectprm.models.ParkingLot;
+import com.tencongty.projectprm.models.ParkingLotOwner;
 
 import java.util.List;
 
-public class ParkingLotAdapter extends RecyclerView.Adapter<ParkingLotAdapter.ViewHolder> {
+public class ParkingLotOwnerAdapter extends RecyclerView.Adapter<ParkingLotOwnerAdapter.ViewHolder> {
 
-    private final List<ParkingLot> parkingLots;
+    private final List<ParkingLotOwner> parkingLots;
     private final OnParkingLotClickListener listener;
 
     // Interface để bắt sự kiện click nút
     public interface OnParkingLotClickListener {
-        void onClick(ParkingLot parkingLot);
+        void onClick(ParkingLotOwner parkingLot);
     }
 
-    public ParkingLotAdapter(List<ParkingLot> parkingLots, OnParkingLotClickListener listener) {
+    public ParkingLotOwnerAdapter(List<ParkingLotOwner> parkingLots, OnParkingLotClickListener listener) {
         this.parkingLots = parkingLots;
         this.listener = listener;
     }
@@ -39,12 +40,11 @@ public class ParkingLotAdapter extends RecyclerView.Adapter<ParkingLotAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ParkingLot lot = parkingLots.get(position);
+        ParkingLotOwner lot = parkingLots.get(position);
 
         holder.tvName.setText(lot.getName());
         holder.tvAddress.setText(lot.getAddress());
         holder.tvCapacity.setText("Sức chứa: " + lot.getCapacity());
-
         holder.btnViewSlots.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onClick(lot);
@@ -59,14 +59,14 @@ public class ParkingLotAdapter extends RecyclerView.Adapter<ParkingLotAdapter.Vi
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvAddress, tvCapacity;
-        Button btnViewSlots;
+        private ImageButton btnViewSlots;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
             tvAddress = itemView.findViewById(R.id.tvAddress);
             tvCapacity = itemView.findViewById(R.id.tvCapacity);
-            btnViewSlots = itemView.findViewById(R.id.btnViewSlots); // Button mới
+            btnViewSlots = itemView.findViewById(R.id.btnViewSlots);
         }
     }
 }

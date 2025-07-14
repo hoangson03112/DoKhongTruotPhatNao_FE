@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 import com.tencongty.projectprm.R;
 import com.tencongty.projectprm.activities.common.LoginActivity;
+import com.tencongty.projectprm.activities.parkingowner.ParkingOwner_MainActivity;
 import com.tencongty.projectprm.network.ApiClient;
 import com.tencongty.projectprm.network.ApiService;
 import com.tencongty.projectprm.utils.TokenManager;
@@ -30,7 +31,7 @@ public class ProfileFragment extends Fragment {
 
     private TextView tvName, tvEmail;
     private ImageView imgAvatar;
-    private LinearLayout btnMyProfile, btnSettings, btnNotifications, btnTransactionHistory, btnFAQ, btnAbout, btnLogout;
+    private LinearLayout btnMyProfile, btnSettings, btnNotifications, btnTransactionHistory, btnFAQ, btnAbout, btnLogout, btnParkingHome;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -58,7 +59,8 @@ public class ProfileFragment extends Fragment {
         btnFAQ = view.findViewById(R.id.btnFAQ);
         btnAbout = view.findViewById(R.id.btnAbout);
         btnLogout = view.findViewById(R.id.btnLogout);
-
+        btnParkingHome = view.findViewById(R.id.btnParkingHome);
+        btnParkingHome.setVisibility(View.GONE);
         // Gọi API để lấy thông tin người dùng
         fetchUserInfo();
 
@@ -121,9 +123,18 @@ public class ProfileFragment extends Fragment {
                         if (data != null) {
                             String name = data.has("name") ? data.get("name").getAsString() : "Chưa có tên";
                             String email = data.has("email") ? data.get("email").getAsString() : "Chưa có email";
+                            String role = data.has("role") ? data.get("role").getAsString() : "";
 
                             tvName.setText(name);
                             tvEmail.setText(email);
+
+                            if ("parking_owner".equalsIgnoreCase(role)) {
+                                btnParkingHome.setVisibility(View.VISIBLE);
+                                btnParkingHome.setOnClickListener(v -> {
+                                    Intent intent = new Intent(getContext(), ParkingOwner_MainActivity.class);
+                                    startActivity(intent);
+                                });
+                            }
                         }
                     } else {
                         Toast.makeText(getContext(), "Không thể lấy thông tin người dùng", Toast.LENGTH_SHORT).show();
@@ -139,4 +150,6 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
+
+
 }

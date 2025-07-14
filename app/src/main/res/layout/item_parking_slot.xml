@@ -1,34 +1,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:padding="12dp"
-    android:background="#E6FFFFFF"
+    android:gravity="center"
+    android:padding="8dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp">
+    android:background="#EEEEEE"
+    android:layout_margin="4dp">
 
     <TextView
-        android:id="@+id/tvLicensePlate"
-        android:textStyle="bold"
+        android:id="@+id/tvSlotNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Slot 1"
         android:textSize="16sp"
-        android:text="Biển số xe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/tvTime"
-        android:text="Thời gian"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/tvLocation"
-        android:text="Vị trí"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/tvStatus"
-        android:text="Trạng thái"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:textStyle="bold"
+        android:textColor="#000000"/>
 </LinearLayout>

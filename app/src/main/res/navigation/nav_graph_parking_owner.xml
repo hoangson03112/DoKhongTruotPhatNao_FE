@@ -5,16 +5,29 @@
 
     <fragment
         android:id="@+id/nav_parking_list"
-        android:name="com.tencongty.projectprm.fragments.ParkingListFragment"
+        android:name="com.tencongty.projectprm.activities.parkingowner.ParkingListFragment"
         android:label="Bãi đỗ" />
 
     <fragment
         android:id="@+id/nav_add_parking"
-        android:name="com.tencongty.projectprm.fragments.AddParkingFragment"
+        android:name="com.tencongty.projectprm.activities.parkingowner.AddParkingFragment"
         android:label="Thêm bãi đỗ" />
 
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.tencongty.projectprm.fragments.OwnerProfileFragment"
         android:label="Hồ sơ" />
+
+    <fragment
+        android:id="@+id/nav_parking_slot_status"
+        android:name="com.tencongty.projectprm.activities.parkingowner.ParkingSlotStatusFragment"
+        android:label="Trạng thái bãi đỗ">
+        <argument
+            android:name="PARKING_LOT_ID"
+            app:argType="string" />
+        <argument
+            android:name="PARKING_LOT_CAPACITY"
+            app:argType="integer" />
+    </fragment>
+
 </navigation>

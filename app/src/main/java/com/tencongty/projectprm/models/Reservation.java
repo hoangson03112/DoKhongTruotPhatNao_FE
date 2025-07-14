@@ -1,41 +1,41 @@
 package com.tencongty.projectprm.models;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.Date;
 
 public class Reservation {
+    @SerializedName("cancellationPolicy")
+    private CancellationPolicy cancellationPolicy;
 
     @SerializedName("_id")
     private String id;
 
-    @SerializedName("parkingLocation")
-    private String parkingLocation;
+    private User user;
+    @SerializedName("parkingLot")
+    private ParkingLotOwner parkingLotOwner;
 
-    @SerializedName("startTime")
     private String startTime;
-
-    @SerializedName("timeCheckOut")
     private String timeCheckOut;
-
-    @SerializedName("licensePlate")
     private String licensePlate;
-
-    @SerializedName("bookingCode")
-    private String bookingCode;
-
-    @SerializedName("status")
     private String status;
-
-    @SerializedName("totalPrice")
     private int totalPrice;
-
-    // Getter & Setter
+    private String bookingCode;
+    private String createdAt;
 
     public String getId() {
         return id;
     }
 
-    public String getParkingLocation() {
-        return parkingLocation;
+    public CancellationPolicy getCancellationPolicy() {
+        return cancellationPolicy;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public ParkingLotOwner getParkingLotOwner() {
+        return parkingLotOwner;
     }
 
     public String getStartTime() {
@@ -50,10 +50,6 @@ public class Reservation {
         return licensePlate;
     }
 
-    public String getBookingCode() {
-        return bookingCode;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -62,7 +58,11 @@ public class Reservation {
         return totalPrice;
     }
 
-    public void setParkingLocation(String parkingLocation) {
-        this.parkingLocation = parkingLocation;
+    public String getBookingCode() {
+        return bookingCode;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
     }
 }
