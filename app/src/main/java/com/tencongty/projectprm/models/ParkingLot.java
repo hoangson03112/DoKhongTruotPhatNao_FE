@@ -69,3 +69,4 @@ public class ParkingLot implements Serializable {
         public String getPhoneNumber() { return phoneNumber; }
     }
 }
+

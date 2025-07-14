@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_parking_list"
+        android:icon="@drawable/ic_home"
+        android:title="Bãi đỗ"/>
+
+    <item
+        android:id="@+id/nav_add_parking"
+        android:icon="@drawable/ic_add"
+        android:title="Đăng ký"/>
+
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_user"
+        android:title="Hồ sơ"/>
+</menu>
