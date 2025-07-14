@@ -1,5 +1,8 @@
 package com.tencongty.projectprm.models;
 
+
+import com.google.gson.annotations.SerializedName;
+
 public class User {
     private String _id;
     private String username;
@@ -7,23 +10,30 @@ public class User {
     private String name;
     private String phone;
     private String role;
+    @SerializedName("isDeleted")
     private boolean isDeleted;
 
-    public User(boolean isDeleted, String role, String phone, String name, String email, String username, String _id) {
-        this.isDeleted = isDeleted;
-        this.role = role;
-        this.phone = phone;
-        this.name = name;
-        this.email = email;
-        this.username = username;
+    private String verificationStatus;
+    private String lastLogin;
+
+
+    public User(String _id, String username, String email, String name, String phone, String role, boolean isDeleted, String verificationStatus, String lastLogin) {
         this._id = _id;
+        this.username = username;
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+        this.role = role;
+        this.isDeleted = isDeleted;
+        this.verificationStatus = verificationStatus;
+        this.lastLogin = lastLogin;
     }
 
     public String getId() {
         return _id;
     }
 
-    public void set_id(String _id) {
+    public void setId(String _id) {
         this._id = _id;
     }
 
@@ -67,11 +77,30 @@ public class User {
         this.role = role;
     }
 
+
     public boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
+
+    public String getVerificationStatus() {
+        return verificationStatus;
+    }
+
+    public void setVerificationStatus(String verificationStatus) {
+        this.verificationStatus = verificationStatus;
+    }
+
+    public String getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(String lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+
 }

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,14 +18,17 @@ import com.tencongty.projectprm.models.User;
 
 public class AdminEditUserDialogFragment extends DialogFragment {
 
-    private final User user;
-    private final OnUserUpdatedListener listener;
+    private User user;
+    private OnUserUpdateListener listener;
 
-    public interface OnUserUpdatedListener {
-        void onUserUpdated(User updatedUser);
+    private EditText editUsername, editName, editEmail, editPhone;
+    private Spinner editRole, editVerificationStatus;
+
+    public interface OnUserUpdateListener {
+        void onUserUpdate(User user);
     }
 
-    public AdminEditUserDialogFragment(User user, OnUserUpdatedListener listener) {
+    public AdminEditUserDialogFragment(User user, OnUserUpdateListener listener) {
         this.user = user;
         this.listener = listener;
     }
@@ -31,26 +36,88 @@ public class AdminEditUserDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.admin_dialog_edit_user, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.admin_dialog_edit_user, null);
 
-        EditText name = view.findViewById(R.id.edit_name);
-        EditText email = view.findViewById(R.id.edit_email);
-        EditText phone = view.findViewById(R.id.edit_phone);
+        initViews(view);
+        setupSpinners();
+        populateUserData();
 
-        name.setText(user.getName());
-        email.setText(user.getEmail());
-        phone.setText(user.getPhone());
-
-        return new AlertDialog.Builder(getContext())
-                .setTitle("Chỉnh sửa người dùng")
-                .setView(view)
-                .setPositiveButton("Lưu", (dialog, which) -> {
-                    user.setName(name.getText().toString().trim());
-                    user.setEmail(email.getText().toString().trim());
-                    user.setPhone(phone.getText().toString().trim());
-                    listener.onUserUpdated(user);
+        builder.setView(view)
+                .setTitle("Cập nhật trạng thái người dùng")
+                .setPositiveButton("Lưu", (dialog, id) -> {
+                    updateUserData(); // Chỉ cập nhật trạng thái
+                    if (listener != null) {
+                        listener.onUserUpdate(user);
+                    }
                 })
-                .setNegativeButton("Hủy", null)
-                .create();
+                .setNegativeButton("Hủy", (dialog, id) -> dialog.cancel());
+
+        return builder.create();
+    }
+
+    private void initViews(View view) {
+        editUsername = view.findViewById(R.id.edit_username);
+        editName = view.findViewById(R.id.edit_name);
+        editEmail = view.findViewById(R.id.edit_email);
+        editPhone = view.findViewById(R.id.edit_phone);
+        editRole = view.findViewById(R.id.edit_role);
+        editVerificationStatus = view.findViewById(R.id.edit_verification_status);
+
+        // Disable các trường chỉ xem
+        editUsername.setEnabled(false);
+        editName.setEnabled(false);
+        editEmail.setEnabled(false);
+        editPhone.setEnabled(false);
+        editRole.setEnabled(false);
+    }
+
+    private void setupSpinners() {
+        // Role spinner
+        String[] roles = {"admin", "staff", "user", "parking_owner"};
+        ArrayAdapter<String> roleAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_item, roles);
+        roleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        editRole.setAdapter(roleAdapter);
+
+        // Verification status spinner
+        String[] verificationStatuses = {"pending", "verified", "rejected"};
+        ArrayAdapter<String> verificationAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_item, verificationStatuses);
+        verificationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        editVerificationStatus.setAdapter(verificationAdapter);
+    }
+
+    private void populateUserData() {
+        if (user == null) return;
+
+        editUsername.setText(user.getUsername());
+        editName.setText(user.getName());
+        editEmail.setText(user.getEmail());
+        editPhone.setText(user.getPhone());
+
+        // Set role selection
+        String[] roles = {"admin", "staff", "user", "parking_owner"};
+        for (int i = 0; i < roles.length; i++) {
+            if (roles[i].equals(user.getRole())) {
+                editRole.setSelection(i);
+                break;
+            }
+        }
+
+        // Set verification status selection
+        String[] verificationStatuses = {"pending", "verified", "rejected"};
+        for (int i = 0; i < verificationStatuses.length; i++) {
+            if (verificationStatuses[i].equals(user.getVerificationStatus())) {
+                editVerificationStatus.setSelection(i);
+                break;
+            }
+        }
+    }
+
+    private void updateUserData() {
+        // Chỉ cập nhật verificationStatus
+        user.setVerificationStatus(editVerificationStatus.getSelectedItem().toString());
     }
 }

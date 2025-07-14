@@ -1,53 +1,141 @@
+<!--item_admin_user.xml-->
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_marginBottom="8dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp"
-    android:elevation="4dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="8dp"
+    android:elevation="2dp"
+    app:cardCornerRadius="8dp">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="16dp">
 
-        <TextView
-            android:id="@+id/user_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tên người dùng" />
-
-        <TextView
-            android:id="@+id/user_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Email" />
-
-        <TextView
-            android:id="@+id/user_role"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Vai trò" />
-
+        <!-- Thông tin chính -->
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageButton
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tên người dùng"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/user_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@username"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/darker_gray"
+                    android:layout_marginTop="2dp" />
+
+                <TextView
+                    android:id="@+id/user_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="email@example.com"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/darker_gray"
+                    android:layout_marginTop="2dp" />
+
+            </LinearLayout>
+
+            <!-- Role Badge -->
+            <TextView
+                android:id="@+id/user_role"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="admin"
+                android:textSize="12sp"
+                android:textColor="@android:color/white"
+                android:background="@drawable/role_badge_background"
+                android:padding="4dp"
+                android:layout_gravity="top" />
+
+        </LinearLayout>
+
+        <!-- Thông tin phụ -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/user_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Số điện thoại"
+                android:textSize="13sp"
+                android:textColor="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/user_last_login"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Lần cuối đăng nhập"
+                android:textSize="13sp"
+                android:textColor="@android:color/darker_gray"
+                android:gravity="end" />
+
+        </LinearLayout>
+
+        <!-- Verification Status (chỉ hiện với parking_owner) -->
+        <TextView
+            android:id="@+id/user_verification_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Trạng thái xác thực: Chờ duyệt"
+            android:textSize="13sp"
+            android:textColor="@android:color/holo_orange_dark"
+            android:layout_marginTop="4dp"
+            android:visibility="gone" />
+
+        <!-- Action Buttons -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="end">
+
+            <Button
                 android:id="@+id/btn_edit"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_edit"
-                android:contentDescription="Edit"
-                android:background="?attr/selectableItemBackgroundBorderless" />
+                android:layout_height="32dp"
+                android:text="Sửa"
+                android:textSize="12sp"
+                android:background="@drawable/button_edit_background"
+                android:textColor="@android:color/white"
+                android:layout_marginRight="8dp" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/btn_delete"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_delete"
-                android:contentDescription="Delete"
-                android:background="?attr/selectableItemBackgroundBorderless" />
+                android:layout_height="32dp"
+                android:text="Xóa"
+                android:textSize="12sp"
+                android:background="@drawable/button_delete_background"
+                android:textColor="@android:color/white" />
+
         </LinearLayout>
+
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

@@ -12,7 +12,7 @@
         android:title="Chủ bãi" />
     <item
         android:id="@+id/nav_parking"
-        android:icon="@drawable/ic_parking"
+        android:icon="@drawable/ic_booking"
         android:title="Bãi đỗ" />
     <item
         android:id="@+id/nav_profile"

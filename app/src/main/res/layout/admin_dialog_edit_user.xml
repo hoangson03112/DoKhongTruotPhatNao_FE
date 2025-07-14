@@ -4,16 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <!-- Chỉ xem - không chỉnh sửa -->
     <EditText
-        android:id="@+id/edit_name"
-        android:hint="Họ tên"
-        android:inputType="textPersonName"
+        android:id="@+id/edit_username"
+        android:hint="Tên đăng nhập"
+        android:enabled="false"
+        android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
+        android:id="@+id/edit_name"
+        android:hint="Họ tên"
+        android:enabled="false"
+        android:inputType="textPersonName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp" />
+
+    <EditText
         android:id="@+id/edit_email"
         android:hint="Email"
+        android:enabled="false"
         android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,8 +34,24 @@
     <EditText
         android:id="@+id/edit_phone"
         android:hint="Số điện thoại"
+        android:enabled="false"
         android:inputType="phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp" />
+
+    <Spinner
+        android:id="@+id/edit_role"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:enabled="false" />
+
+
+    <Spinner
+        android:id="@+id/edit_verification_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+         />
 </LinearLayout>
