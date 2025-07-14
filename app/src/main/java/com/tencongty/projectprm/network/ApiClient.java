@@ -5,7 +5,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tencongty.projectprm.utils.TokenManager;
-
+import java.io.IOException;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Retrofit;
@@ -13,6 +13,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
     private static final String BASE_URL = "https://do-khong-truot-phat-nao.onrender.com/";
+    private static final Gson gson = new Gson(); // Thêm dòng này
+    private static Retrofit retrofit;
 
     public static Retrofit getClient(Context context) {
         // 1. Khai báo gson có format ISO 8601 (Z là UTC)
@@ -39,5 +41,10 @@ public class ApiClient {
                 .addConverterFactory(GsonConverterFactory.create(gson)) // dùng gson custom
                 .client(okHttpClient)
                 .build();
+    }
+
+    // Thêm phương thức này để fix lỗi "Cannot resolve method 'getGson'"
+    public static Gson getGson() {
+        return gson;
     }
 }
