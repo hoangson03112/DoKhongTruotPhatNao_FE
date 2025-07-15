@@ -47,6 +47,19 @@
             android:name=".activities.parkingowner.ParkingOwner_RegisterActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".activities.admin.AdminHomeActivity"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".fragments.AdminOwnerDetailActivity"
+            android:hardwareAccelerated="false" />
+        <activity
+            android:name=".fragments.AdminUserDetailActivity"
+            android:hardwareAccelerated="false" />
+
+
     </application>
 
 </manifest>

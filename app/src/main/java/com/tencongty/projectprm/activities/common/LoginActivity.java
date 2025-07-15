@@ -14,6 +14,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
 import com.tencongty.projectprm.MainActivity;
 import com.tencongty.projectprm.R;
+import com.tencongty.projectprm.activities.admin.AdminHomeActivity;
+import com.tencongty.projectprm.activities.parkingowner.ParkingOwner_MainActivity;
+import com.tencongty.projectprm.activities.parkingowner.ParkingOwner_RegisterActivity;
 import com.tencongty.projectprm.activities.parkingowner.ParkingOwner_MainActivity;
 import com.tencongty.projectprm.activities.parkingowner.ParkingOwner_RegisterActivity;
 import com.tencongty.projectprm.models.LoginRequest;
@@ -119,6 +122,8 @@ public class LoginActivity extends AppCompatActivity {
                         Intent intent;
                         if ("parking_owner".equals(role)) {
                             intent = new Intent(LoginActivity.this, ParkingOwner_MainActivity.class);
+                        } else if("admin".equals(role)) {
+                            intent = new Intent(LoginActivity.this, AdminHomeActivity.class);
                         } else {
                             intent = new Intent(LoginActivity.this, MainActivity.class);
                         }
