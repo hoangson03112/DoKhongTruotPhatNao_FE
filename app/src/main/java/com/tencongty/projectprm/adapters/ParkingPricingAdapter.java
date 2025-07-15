@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tencongty.projectprm.R;
 import com.tencongty.projectprm.models.ParkingPricing;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class ParkingPricingAdapter extends RecyclerView.Adapter<ParkingPricingAdapter.PricingViewHolder> {
 
@@ -24,7 +26,6 @@ public class ParkingPricingAdapter extends RecyclerView.Adapter<ParkingPricingAd
     @NonNull
     @Override
     public PricingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Giả sử bạn có layout item_parking_pricing.xml để hiển thị thông tin giá
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_parking_pricing, parent, false);
         return new PricingViewHolder(view);
@@ -34,16 +35,20 @@ public class ParkingPricingAdapter extends RecyclerView.Adapter<ParkingPricingAd
     public void onBindViewHolder(@NonNull PricingViewHolder holder, int position) {
         ParkingPricing pricing = pricingList.get(position);
 
-        // Format giá và đơn vị
-        String priceText = String.format("%,.0f %s", pricing.getPrice(), pricing.getUnit());
+        // Format giá sang định dạng tiền tệ Việt Nam
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        String formattedPrice = formatter.format(pricing.getPrice());
 
-        holder.tvType.setText(pricing.getType());
-        holder.tvPrice.setText(priceText);
+        // Kết hợp với đơn vị (ví dụ: "/giờ", "/lượt")
+        String priceText = formattedPrice + pricing.getUnit();
+
+        holder.tvType.setText(pricing.getType());     // Loại xe: "Xe máy", "Ô tô", ...
+        holder.tvPrice.setText(priceText);            // Ví dụ: "5.000 ₫/giờ"
     }
 
     @Override
     public int getItemCount() {
-        return pricingList.size();
+        return pricingList != null ? pricingList.size() : 0;
     }
 
     public static class PricingViewHolder extends RecyclerView.ViewHolder {
@@ -51,9 +56,8 @@ public class ParkingPricingAdapter extends RecyclerView.Adapter<ParkingPricingAd
 
         public PricingViewHolder(@NonNull View itemView) {
             super(itemView);
-            // Bạn cần ID của TextView trong layout item_parking_pricing.xml
-            // tvType = itemView.findViewById(R.id.tvPricingType);
-            // tvPrice = itemView.findViewById(R.id.tvPricingPrice);
+            tvType = itemView.findViewById(R.id.tvPricingType);
+            tvPrice = itemView.findViewById(R.id.tvPricingPrice);
         }
     }
 }
