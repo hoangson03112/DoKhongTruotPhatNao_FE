@@ -64,6 +64,14 @@
             android:textSize="16sp"
             android:layout_marginTop="4dp" />
 
+        <TextView
+            android:id="@+id/tvDetailPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Giá: từ 5000đ đến 20000đ"
+            android:textSize="16sp"
+            android:layout_marginTop="4dp" />
+
         <!-- Nút mở bản đồ -->
         <Button
             android:id="@+id/btnOpenMap"
