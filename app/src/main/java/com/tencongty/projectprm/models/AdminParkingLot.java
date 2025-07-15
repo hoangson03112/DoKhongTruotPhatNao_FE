@@ -39,6 +39,5 @@ public class AdminParkingLot implements Serializable {
     public List<AdminPricing> getPricing() { return pricing; }
     public void setStatus(String status) { this.status = status; }
 
-    // Inner class Owner
 
 }
