@@ -8,6 +8,7 @@ import com.tencongty.projectprm.models.LoginRequest;
 import com.tencongty.projectprm.models.Owner;
 import com.tencongty.projectprm.models.ParkingLot;
 import com.tencongty.projectprm.models.ParkingLotOwner;
+import com.tencongty.projectprm.models.ParkingOwnerActionRequest;
 import com.tencongty.projectprm.models.ParkingOwnerRegisterRequest;
 import com.tencongty.projectprm.models.RegisterRequest;
 import com.tencongty.projectprm.models.Reservation;
@@ -72,11 +73,13 @@ public interface ApiService {
     );
 
     @POST("/api/owner/parking-lots")
-    Call<JsonObject> addParkingLot(
-            @Header("Authorization") String token,
-            @Body AddParkingLotRequest request
-    );
+    Call<JsonObject> addParkingLot(@Body AddParkingLotRequest request);
 
+    @retrofit2.http.PATCH("/api/owner/parking-lots/{id}")
+    Call<JsonObject> updateParkingBookingStatus(
+            @Path("id") String parkingLotId,
+            @Body ParkingOwnerActionRequest request
+    );
 
 
     //admin

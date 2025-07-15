@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:padding="24dp">
 
-        <!-- App Logo -->
+        <!-- Logo -->
         <ImageView
             android:id="@+id/ivAppLogoRegister"
             android:layout_width="72dp"
@@ -46,8 +46,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:hint="Username"
-            app:errorEnabled="true"
-            app:startIconDrawable="@drawable/ic_person_outline_24"
             app:layout_constraintTop_toBottomOf="@id/tvTitleRegister"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -67,8 +65,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Full Name"
-            app:errorEnabled="true"
-            app:startIconDrawable="@drawable/ic_person_outline_24"
             app:layout_constraintTop_toBottomOf="@id/tilUsername"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -88,8 +84,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Email Address"
-            app:errorEnabled="true"
-            app:startIconDrawable="@drawable/ic_email_outline_24"
             app:layout_constraintTop_toBottomOf="@id/tilFullName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -109,8 +103,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Phone Number"
-            app:errorEnabled="true"
-            app:startIconDrawable="@drawable/ic_phone"
             app:layout_constraintTop_toBottomOf="@id/tilEmail"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -130,9 +122,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Password"
-            app:errorEnabled="true"
             app:endIconMode="password_toggle"
-            app:startIconDrawable="@drawable/ic_lock_outline_24"
             app:layout_constraintTop_toBottomOf="@id/tilPhone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -145,39 +135,73 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Nút chọn ảnh -->
-        <Button
-            android:id="@+id/btnSelectImages"
+        <!-- CCCD Front -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilOwnerIdFrontUrl"
+            style="@style/MyTextInputStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Chọn ảnh xác minh"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:hint="URL mặt trước CCCD"
+            app:layout_constraintTop_toBottomOf="@id/tilPassword"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tilPassword" />
+            app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Hiển thị số ảnh đã chọn -->
-        <TextView
-            android:id="@+id/tvSelectedImageCount"
-            android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etOwnerIdFrontUrl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textUri" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- CCCD Back -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilOwnerIdBackUrl"
+            style="@style/MyTextInputStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Chưa chọn ảnh nào"
-            android:textAppearance="?attr/textAppearanceBody2"
-            app:layout_constraintTop_toBottomOf="@id/btnSelectImages"
+            android:hint="URL mặt sau CCCD"
+            app:layout_constraintTop_toBottomOf="@id/tilOwnerIdFrontUrl"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="8dp" />
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etOwnerIdBackUrl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textUri" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Business License -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilBusinessLicenseUrl"
+            style="@style/MyTextInputStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="URL giấy phép kinh doanh"
+            app:layout_constraintTop_toBottomOf="@id/tilOwnerIdBackUrl"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etBusinessLicenseUrl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textUri" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Checkbox -->
         <CheckBox
             android:id="@+id/cbTerms"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:text="I agree to the Terms and Conditions"
-            app:layout_constraintTop_toBottomOf="@id/tvSelectedImageCount"
+            app:layout_constraintTop_toBottomOf="@id/tilBusinessLicenseUrl"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Button -->
+        <!-- Đăng ký -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRegisterOwner"
             android:layout_width="0dp"
@@ -189,7 +213,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Link to login -->
+        <!-- Chuyển đến login -->
         <LinearLayout
             android:id="@+id/llLoginLink"
             android:layout_width="wrap_content"
@@ -210,12 +234,9 @@
                 android:id="@+id/tvLoginLink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sign In"
+                android:text="Log in"
                 android:textColor="@color/bg_green"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true" />
+                android:textStyle="bold" />
         </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

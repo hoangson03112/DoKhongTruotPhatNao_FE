@@ -40,16 +40,12 @@ public class ParkingSlotAdapter extends RecyclerView.Adapter<ParkingSlotAdapter.
         int slotNumber = position + 1;
         holder.tvSlotNumber.setText("Slot " + slotNumber);
 
-        // Suy ra số slot đã đặt
-        int reservedCount = reservations.size();
-
-        if (position < reservedCount) {
+        if (position < reservations.size()) {
             Reservation reservation = reservations.get(position);
-            holder.itemView.setBackgroundColor(Color.parseColor("#A5D6A7")); // Màu xanh
-
+            holder.layoutSlotItem.setBackgroundColor(Color.parseColor("#A5D6A7")); // Xanh nhạt
             holder.itemView.setOnClickListener(v -> showReservationDialog(reservation));
         } else {
-            holder.itemView.setBackgroundColor(Color.parseColor("#EEEEEE")); // Màu xám nhạt
+            holder.layoutSlotItem.setBackgroundColor(Color.parseColor("#EEEEEE")); // Xám nhạt
             holder.itemView.setOnClickListener(null);
         }
     }
@@ -76,10 +72,13 @@ public class ParkingSlotAdapter extends RecyclerView.Adapter<ParkingSlotAdapter.
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvSlotNumber;
+        View layoutSlotItem;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvSlotNumber = itemView.findViewById(R.id.tvSlotNumber);
+            layoutSlotItem = itemView.findViewById(R.id.layoutSlotItem);
         }
     }
 }
+

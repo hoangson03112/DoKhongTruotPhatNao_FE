@@ -42,6 +42,12 @@ public class ParkingListFragment extends Fragment {
             bundle.putInt("PARKING_LOT_CAPACITY", parkingLot.getCapacity());
             bundle.putString("PARKING_LOT_NAME", parkingLot.getName());
 
+            // Gửi link ảnh đầu tiên (nếu có)
+            List<String> images = parkingLot.getImages();
+            if (images != null && !images.isEmpty()) {
+                bundle.putString("PARKING_LOT_IMAGE", images.get(0));
+            }
+
             androidx.navigation.NavController navController =
                     androidx.navigation.fragment.NavHostFragment.findNavController(ParkingListFragment.this);
 
