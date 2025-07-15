@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.tencongty.projectprm.R;
+import com.tencongty.projectprm.fragments.AdminParkingLotDetailActivity;
 import com.tencongty.projectprm.models.AdminParkingLot;
 import com.tencongty.projectprm.network.ApiClient;
 import com.tencongty.projectprm.network.ApiService;
@@ -79,17 +80,11 @@ public class AdminParkingLotAdapter extends RecyclerView.Adapter<AdminParkingLot
         holder.btnDelete.setOnClickListener(v -> confirmDelete(lot.getId()));
 
         holder.itemView.setOnClickListener(v -> {
-            if (lot.getCoordinates() != null) {
-                double lat = lot.getCoordinates().getLat();
-                double lng = lot.getCoordinates().getLng();
-                String uri = "geo:" + lat + "," + lng + "?q=" + lat + "," + lng + "(" + lot.getName() + ")";
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                mapIntent.setPackage("com.google.android.apps.maps");
-                context.startActivity(mapIntent);
-            } else {
-                Toast.makeText(context, "Không có tọa độ cho bãi đỗ này", Toast.LENGTH_SHORT).show();
-            }
+            Intent intent = new Intent(context, AdminParkingLotDetailActivity.class);
+            intent.putExtra("parkingLot", lot);
+            context.startActivity(intent);
         });
+
 
     }
 

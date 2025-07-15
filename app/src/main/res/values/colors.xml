@@ -26,4 +26,6 @@
     <color name="bg_light_brown">#D7CCC8</color>
     <color name="bg_light_grey">#E0E0E0</color>
     <color name="bg_light_white">#F5F5F5</color>
+    <color name="purple_500">#6200EE</color>
+    <color name="black">#000000</color>
 </resources>
