@@ -1,15 +1,22 @@
 package com.tencongty.projectprm.adapters;
 
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.tencongty.projectprm.R;
-// import com.squareup.picasso.Picasso; // Giả sử sử dụng Picasso hoặc Glide
 
 import java.util.List;
 
@@ -17,7 +24,6 @@ public class ParkingImageAdapter extends RecyclerView.Adapter<ParkingImageAdapte
 
     private List<String> imageUrls;
 
-    // Constructor nhận danh sách URL hình ảnh
     public ParkingImageAdapter(List<String> imageUrls) {
         this.imageUrls = imageUrls;
     }
@@ -25,7 +31,6 @@ public class ParkingImageAdapter extends RecyclerView.Adapter<ParkingImageAdapte
     @NonNull
     @Override
     public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Bạn cần đảm bảo có layout item_parking_image.xml
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_parking_image, parent, false);
         return new ImageViewHolder(view);
@@ -34,9 +39,25 @@ public class ParkingImageAdapter extends RecyclerView.Adapter<ParkingImageAdapte
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         String url = imageUrls.get(position);
+        Log.d("ParkingImageAdapter", "Loading image URL: " + url);
 
-        // Sử dụng thư viện tải ảnh (ví dụ: Picasso) để load ảnh từ URL
-        // Picasso.get().load(url).into(holder.imageView);
+        Glide.with(holder.itemView.getContext())
+                .load(url)
+                .placeholder(R.drawable.baseline_image_24)
+                .error(R.drawable.baseline_image_not_supported_24)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        Log.e("GlideError", "Failed to load image: " + url, e);
+                        return false;
+                    }
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        Log.d("GlideError", "Image loaded successfully: " + url);
+                        return false;
+                    }
+                })
+                .into(holder.imageView);
     }
 
     @Override
@@ -44,13 +65,17 @@ public class ParkingImageAdapter extends RecyclerView.Adapter<ParkingImageAdapte
         return imageUrls.size();
     }
 
+    public void setImageUrls(List<String> newImageUrls) {
+        this.imageUrls = newImageUrls;
+        notifyDataSetChanged();
+    }
+
     public static class ImageViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
 
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
-            // Bạn cần ID của ImageView trong layout item_parking_image.xml (Ví dụ: R.id.imageViewParking)
-            // imageView = itemView.findViewById(R.id.imageViewParking);
+            imageView = itemView.findViewById(R.id.imageViewParking);
         }
     }
 }

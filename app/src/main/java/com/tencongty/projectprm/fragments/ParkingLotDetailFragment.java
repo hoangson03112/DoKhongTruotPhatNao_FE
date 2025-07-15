@@ -14,6 +14,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +26,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -31,6 +35,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.tencongty.projectprm.R;
 import com.tencongty.projectprm.adapters.ParkingImageAdapter;
+import com.tencongty.projectprm.adapters.ParkingPricingAdapter;
 import com.tencongty.projectprm.models.BookingRequest;
 import com.tencongty.projectprm.models.ParkingLot;
 import com.tencongty.projectprm.models.ParkingPricing;
@@ -41,6 +46,7 @@ import com.tencongty.projectprm.fragments.BookingDialog; // Import BookingDialog
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -116,7 +122,14 @@ public class ParkingLotDetailFragment extends Fragment implements OnMapReadyCall
         apiService = ApiClient.getClient(getContext()).create(ApiService.class);
 
         // Set click listeners
-        ivBack.setOnClickListener(v -> requireActivity().onBackPressed());
+        ivBack.setOnClickListener(v -> {
+            try {
+                requireActivity().onBackPressed();
+            } catch (Exception e) {
+                Log.e("BackNavigation", "Lỗi khi quay lại", e);
+            }
+        });
+
 
         // Cập nhật click listener cho nút chỉ đường để hiển thị trên bản đồ nội bộ
         btnGetDirections.setOnClickListener(v -> showDirectionsOnMap());
@@ -132,13 +145,22 @@ public class ParkingLotDetailFragment extends Fragment implements OnMapReadyCall
     }
 
     private void getArgumentsData() {
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            parkingLotId = bundle.getString("parkingLotId");
-            userLat = bundle.getDouble("userLat");
-            userLng = bundle.getDouble("userLng");
+        try {
+            Bundle bundle = getArguments();
+            if (bundle != null) {
+                parkingLotId = bundle.getString("parkingLotId", "");
+                userLat = bundle.getDouble("userLat", 0);
+                userLng = bundle.getDouble("userLng", 0);
+            }
+            if (parkingLotId == null || parkingLotId.isEmpty()) {
+                Toast.makeText(getContext(), "Thiếu mã bãi đỗ xe", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Log.e("ParkingLotDetail", "Lỗi khi đọc dữ liệu truyền vào", e);
+            Toast.makeText(getContext(), "Lỗi khi nhận dữ liệu", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void fetchParkingLotDetail() {
         showLoading(true);
@@ -192,13 +214,20 @@ public class ParkingLotDetailFragment extends Fragment implements OnMapReadyCall
 
         // Hiển thị hình ảnh
         if (parkingLotDetail.getImages() != null && !parkingLotDetail.getImages().isEmpty()) {
+            Log.d("ParkingLotDetail", "Image URLs: " + parkingLotDetail.getImages().toString());
             rvImages.setAdapter(new ParkingImageAdapter(parkingLotDetail.getImages()));
+        } else {
+            Log.e("ParkingLotDetail", "No images available for this parking lot");
         }
 
-        // Hiển thị giá (Nếu bạn có PricingAdapter)
-        // if (parkingLotDetail.getPricing() != null) {
-        //     rvPricing.setAdapter(new PricingAdapter(parkingLotDetail.getPricing()));
-        // }
+
+        if (parkingLotDetail.getPricing() != null && !parkingLotDetail.getPricing().isEmpty()) {
+            ParkingPricingAdapter pricingAdapter = new ParkingPricingAdapter(parkingLotDetail.getPricing());
+            rvPricing.setAdapter(pricingAdapter);
+        } else {
+            Log.e("ParkingLotDetail", "Không có dữ liệu giá.");
+        }
+
 
         // Hiển thị tiện ích (features)
         chipGroupFeatures.removeAllViews();
@@ -302,47 +331,56 @@ public class ParkingLotDetailFragment extends Fragment implements OnMapReadyCall
 
     // Phương thức gửi booking request lên server
     private void submitBookingToServer(String licensePlate, Date checkInDateTime, Date checkOutDateTime) {
-        // Tạo booking request object
-         BookingRequest request = new BookingRequest();
-         request.setParkingLotId(parkingLotId);
-         request.setLicensePlate(licensePlate);
-         request.setCheckInDateTime(checkInDateTime);
-         request.setCheckOutDateTime(checkOutDateTime);
+        BookingRequest request = new BookingRequest();
+        request.setParkingLotId(parkingLotId);
+        request.setLicensePlate(licensePlate);
+        request.setCheckInDateTime(checkInDateTime);
+        request.setCheckOutDateTime(checkOutDateTime);
 
-        // Gửi request lên server
-         apiService.createBooking(request).enqueue(new Callback<JsonObject>() {
-             @Override
-             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                 if (response.isSuccessful()) {
-                     Toast.makeText(getContext(), "Đặt chỗ thành công!", Toast.LENGTH_SHORT).show();
-                     fetchParkingLotDetail();
-                     // Sau khi đặt chỗ thành công
-                     requireActivity().getSupportFragmentManager()
-                             .beginTransaction()
-                             .replace(R.id.nav_host_fragment, new HistoryFragment())
-                             .addToBackStack(null)
-                             .commit();
+        try {
+            apiService.createBooking(request).enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(getContext(), "Đặt chỗ thành công!", Toast.LENGTH_SHORT).show();
+                        // Cập nhật lại chi tiết bãi đỗ
+                        fetchParkingLotDetail();
 
-                 } else {
-                     Toast.makeText(getContext(), "Đặt chỗ thất bại. Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
+                        try {
+                            NavHostFragment.findNavController(ParkingLotDetailFragment.this).navigate(
+                                    R.id.historyFragment,
+                                    null,
+                                    new NavOptions.Builder()
+                                            .setPopUpTo(R.id.parkingFragment, true)
+                                            .build()
+                            );
+                        } catch (Exception navEx) {
+                            Log.e("NavigationError", "Lỗi khi chuyển sang History", navEx);
+                            Toast.makeText(getContext(), "Không thể chuyển sang lịch sử", Toast.LENGTH_SHORT).show();
+                        }
 
-                     try {
-                         Log.e("BOOKING_ERROR", response.errorBody().string());
-                     } catch (Exception e) {
-                         e.printStackTrace();
-                     }
-                 }
-             }
+                    } else {
+                        Toast.makeText(getContext(), "Đặt chỗ thất bại. Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
+                        try {
+                            Log.e("BOOKING_ERROR", response.errorBody() != null ? response.errorBody().string() : "No error body");
+                        } catch (Exception e) {
+                            Log.e("BOOKING_ERROR", "Lỗi khi đọc lỗi từ server", e);
+                        }
+                    }
+                }
 
-
-             @Override
-             public void onFailure(Call<JsonObject> call, Throwable t) {
-                 Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-             }
-         });
-
-
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    Log.e("BOOKING_ERROR", "Lỗi kết nối tới server", t);
+                    Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            Log.e("BOOKING_ERROR", "Lỗi không xác định khi gửi booking", e);
+            Toast.makeText(getContext(), "Lỗi không xác định khi gửi đặt chỗ", Toast.LENGTH_SHORT).show();
+        }
     }
+
 
     private void showLoading(boolean show) {
         if (loadingLayout != null) {
