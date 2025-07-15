@@ -58,6 +58,9 @@
         <activity
             android:name=".fragments.AdminUserDetailActivity"
             android:hardwareAccelerated="false" />
+        <activity
+            android:name=".fragments.AdminParkingLotDetailActivity"
+            android:hardwareAccelerated="false" />
 
 
     </application>

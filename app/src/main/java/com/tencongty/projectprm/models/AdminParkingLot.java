@@ -2,6 +2,8 @@ package com.tencongty.projectprm.models;
 
 import java.io.Serializable;
 import java.util.List;
+import com.tencongty.projectprm.models.Owner;
+
 
 public class AdminParkingLot implements Serializable {
 
@@ -18,7 +20,8 @@ public class AdminParkingLot implements Serializable {
     private String status;
     private Owner owner;
     private AdminCoordinates coordinates;
-    private List<AdminPricing> pricing; // ✅ dùng AdminPricing
+    private List<AdminPricing> pricing;
+
 
     public String getId() { return _id; }
     public String getName() { return name; }
@@ -36,22 +39,5 @@ public class AdminParkingLot implements Serializable {
     public List<AdminPricing> getPricing() { return pricing; }
     public void setStatus(String status) { this.status = status; }
 
-    // Inner class Owner
-    public static class Owner implements Serializable {
-        private String _id;
-        private String username;
-        private String email;
-        private String name;
-        private String role;
-        private boolean isDeleted;
-        private String verificationStatus;
 
-        public String getId() { return _id; }
-        public String getUsername() { return username; }
-        public String getEmail() { return email; }
-        public String getName() { return name; }
-        public String getRole() { return role; }
-        public boolean isDeleted() { return isDeleted; }
-        public String getVerificationStatus() { return verificationStatus; }
-    }
 }
