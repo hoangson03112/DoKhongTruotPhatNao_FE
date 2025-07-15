@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activities.parkingowner.DatChoTrucTiepFragment">
 
     <!-- AppBar với hình nền và tiêu đề -->
     <com.google.android.material.appbar.AppBarLayout
@@ -16,7 +15,7 @@
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="160dp"
             app:contentScrim="@drawable/header_gradient"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:titleEnabled="false">
@@ -47,18 +46,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ParkEasy"
+                    android:text="Tạo đặt chỗ trực tiếp tại bãi"
                     android:textColor="@android:color/white"
-                    android:textSize="28sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Quản lý bãi đỗ của bạn dễ dàng hơn"
-                    android:textColor="#C8E6C9"
-                    android:textSize="16sp"
-                    android:layout_marginTop="8dp" />
 
                 <!-- Quick Search nằm trong header -->
                 <com.google.android.material.card.MaterialCardView
@@ -118,7 +109,7 @@
     <!-- Nội dung chính -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="731dp"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -157,13 +148,15 @@
 
             <!-- Danh sách bãi đỗ -->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_parking_list"
+                android:id="@+id/rv_parking_list_add_bk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
-                android:scrollbars="vertical" />
+                android:scrollbars="vertical"
+                android:layout_marginBottom="150dp"/>
+
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

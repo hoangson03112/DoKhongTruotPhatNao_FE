@@ -13,43 +13,43 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:contentScrim="@color/bg_green"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:titleEnabled="false">
 
-            <!-- Custom header -->
+            <!-- ✅ Custom Header: Không dùng Toolbar -->
             <LinearLayout
+                android:id="@+id/customHeader"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:background="@color/bg_green"
-                android:orientation="vertical"
-                android:padding="24dp"
+                android:orientation="horizontal"
                 android:gravity="center_vertical"
-                app:layout_collapseMode="parallax">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                app:layout_collapseMode="pin">
+
+                <ImageView
+                    android:id="@+id/btnBack"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_forward_white"
+                    android:contentDescription="Back"
+                    app:tint="@android:color/white" />
 
                 <TextView
-                    android:id="@+id/tvParkingLotName"
+                    android:id="@+id/titleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tên bãi đỗ"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/bg_light_white"
-                    android:layout_gravity="center_horizontal"
-                    android:paddingBottom="12dp"/>
-
+                    android:layout_marginStart="16dp"
+                    android:text="Bãi đỗ của bạn"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </LinearLayout>
-
-            <!-- Toolbar với nút back -->
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:navigationIcon="@drawable/ic_arrow_forward_white" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -59,7 +59,7 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingTop="16dp"
-        android:paddingBottom="80dp"
+        android:paddingBottom="150dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -69,31 +69,62 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvAvailableCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Slot còn trống: 0"
-                android:textSize="16sp"
-                android:textColor="#4CAF50"
-                android:layout_marginBottom="4dp" />
 
             <TextView
-                android:id="@+id/tvReservedCount"
+                android:id="@+id/tvParkingLotName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tên bãi đỗ"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#2E7D32"
+                android:gravity="center"
+                android:layout_marginBottom="16dp" />
+
+            <ImageView
+                android:id="@+id/imgParkingImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="Ảnh bãi đỗ" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Slot đã đặt: 0"
-                android:textSize="16sp"
-                android:textColor="#F44336"
-                android:layout_marginBottom="12dp" />
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="15dp">
+
+                <TextView
+                    android:id="@+id/tvAvailableCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Slot còn trống: 0"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="#4CAF50"
+                    android:layout_marginEnd="40dp" />
+
+                <TextView
+                    android:id="@+id/tvReservedCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Slot đã đặt: 0"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="#F44336" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvSlots"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
-                android:padding="4dp"
+                android:padding="2dp"
                 android:clipToPadding="false" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

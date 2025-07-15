@@ -1,10 +1,7 @@
 package com.tencongty.projectprm.activities.parkingowner;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +11,6 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.JsonObject;
 import com.tencongty.projectprm.R;
@@ -32,15 +28,9 @@ import retrofit2.Response;
 public class AddParkingFragment extends Fragment {
 
     private EditText etName, etAddress, etLatitude, etLongitude, etCapacity;
-    private Button btnAddImage, btnSubmit;
-    private RecyclerView rvImages;
-    private CheckBox cb5000;
-    private AddParkingImageAdapter imageAdapter;
-
-    private static final int PICK_IMAGE_REQUEST = 100;
-    private static final int MAX_IMAGE_COUNT = 5;
-
-    private List<Uri> imageUris = new ArrayList<>();
+    private EditText etImageUrl1, etImageUrl2, etImageUrl3;
+    private Button btnSubmit;
+    private RadioButton rb5000, rb10000;
 
     @Nullable
     @Override
@@ -58,42 +48,16 @@ public class AddParkingFragment extends Fragment {
         etLatitude = view.findViewById(R.id.etLatitude);
         etLongitude = view.findViewById(R.id.etLongitude);
         etCapacity = view.findViewById(R.id.etCapacity);
-        cb5000 = view.findViewById(R.id.cb5000);
-        btnAddImage = view.findViewById(R.id.btnAddImage);
+        etImageUrl1 = view.findViewById(R.id.etImageUrl1);
+        etImageUrl2 = view.findViewById(R.id.etImageUrl2);
+        etImageUrl3 = view.findViewById(R.id.etImageUrl3);
+        rb5000 = view.findViewById(R.id.rb5000);
+        rb10000 = view.findViewById(R.id.rb10000);
         btnSubmit = view.findViewById(R.id.btnSubmit);
-        rvImages = view.findViewById(R.id.rvImages);
-
-        imageAdapter = new AddParkingImageAdapter(requireContext(), imageUris);
-        rvImages.setAdapter(imageAdapter);
     }
 
     private void setupListeners() {
-        btnAddImage.setOnClickListener(v -> {
-            if (imageUris.size() >= MAX_IMAGE_COUNT) {
-                Toast.makeText(getContext(), "Tối đa 5 ảnh", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            pickImage();
-        });
-
-        btnSubmit.setOnClickListener(v -> {
-            submitParking();
-        });
-    }
-
-    private void pickImage() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(Intent.createChooser(intent, "Chọn ảnh"), PICK_IMAGE_REQUEST);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
-            imageUris.add(data.getData());
-            imageAdapter.notifyDataSetChanged();
-        }
+        btnSubmit.setOnClickListener(v -> submitParking());
     }
 
     private void submitParking() {
@@ -103,8 +67,26 @@ public class AddParkingFragment extends Fragment {
         String lngStr = etLongitude.getText().toString().trim();
         String capacityStr = etCapacity.getText().toString().trim();
 
-        if (name.isEmpty() || address.isEmpty() || latStr.isEmpty() || lngStr.isEmpty() || capacityStr.isEmpty() || imageUris.isEmpty()) {
-            Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin và chọn ít nhất 1 ảnh", Toast.LENGTH_SHORT).show();
+        // Validate bắt buộc
+        if (name.isEmpty() || address.isEmpty() || latStr.isEmpty() || lngStr.isEmpty() || capacityStr.isEmpty()) {
+            Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Thu thập các URL ảnh (ít nhất 1)
+        List<String> imageUrls = new ArrayList<>();
+        if (!etImageUrl1.getText().toString().trim().isEmpty()) {
+            imageUrls.add(etImageUrl1.getText().toString().trim());
+        }
+        if (!etImageUrl2.getText().toString().trim().isEmpty()) {
+            imageUrls.add(etImageUrl2.getText().toString().trim());
+        }
+        if (!etImageUrl3.getText().toString().trim().isEmpty()) {
+            imageUrls.add(etImageUrl3.getText().toString().trim());
+        }
+
+        if (imageUrls.isEmpty()) {
+            Toast.makeText(getContext(), "Vui lòng nhập ít nhất 1 URL ảnh", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -113,34 +95,40 @@ public class AddParkingFragment extends Fragment {
         int capacity = Integer.parseInt(capacityStr);
 
         List<String> pricingIds = new ArrayList<>();
-        if (cb5000.isChecked()) {
-            pricingIds.add("686bd958481ae15de8c642f2");
+        if (rb5000.isChecked()) {
+            pricingIds.add("68753c014b43bfbf0de7b947");
         }
-
-        // Giả lập tên ảnh từ URI (nếu cần có tên thật thì cần upload ảnh và lấy link từ server)
-        List<String> imageNames = new ArrayList<>();
-        for (Uri uri : imageUris) {
-            imageNames.add(uri.getLastPathSegment()); // Hoặc có thể hardcode tên
+        if (rb10000.isChecked()) {
+            pricingIds.add("68753c674b43bfbf0de7b948");
         }
 
         AddParkingLotRequest.Coordinates coordinates = new AddParkingLotRequest.Coordinates(lat, lng);
-        AddParkingLotRequest request = new AddParkingLotRequest(name, address, coordinates, capacity, imageNames, pricingIds);
+        AddParkingLotRequest request = new AddParkingLotRequest(name, address, coordinates, capacity, imageUrls, pricingIds);
 
-        // Lấy token từ SharedPreferences
-        SharedPreferences prefs = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        String token = prefs.getString("token", null);
-        if (token == null) {
-            Toast.makeText(getContext(), "Chưa đăng nhập!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
+        // ✅ Gọi API mà không cần tự lấy token
         ApiService apiService = ApiClient.getClient(requireContext()).create(ApiService.class);
-        Call<JsonObject> call = apiService.addParkingLot("Bearer " + token, request);
+        Call<JsonObject> call = apiService.addParkingLot(request); // Không truyền token
+
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(getContext(), "Thêm bãi đỗ thành công!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Thêm bãi đỗ thành công! Chờ phê duyệt.", Toast.LENGTH_SHORT).show();
+
+                    // Xoá dữ liệu sau khi thêm thành công
+                    etName.setText("");
+                    etAddress.setText("");
+                    etLatitude.setText("");
+                    etLongitude.setText("");
+                    etCapacity.setText("");
+                    etImageUrl1.setText("");
+                    etImageUrl2.setText("");
+                    etImageUrl3.setText("");
+
+                    // Bỏ chọn RadioButton (nếu cần)
+                    rb5000.setChecked(false);
+                    rb10000.setChecked(false);
+
                 } else {
                     Toast.makeText(getContext(), "Thêm thất bại: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -152,4 +140,5 @@ public class AddParkingFragment extends Fragment {
             }
         });
     }
+
 }
