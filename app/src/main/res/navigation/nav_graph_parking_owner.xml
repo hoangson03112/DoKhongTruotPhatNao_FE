@@ -9,13 +9,18 @@
         android:label="Bãi đỗ" />
 
     <fragment
+        android:id="@+id/nav_dat_cho_truc_tiep"
+        android:name="com.tencongty.projectprm.activities.parkingowner.DatChoTrucTiepFragment"
+        android:label="Dặt chỗ trực tiếp" />
+
+    <fragment
         android:id="@+id/nav_add_parking"
         android:name="com.tencongty.projectprm.activities.parkingowner.AddParkingFragment"
         android:label="Thêm bãi đỗ" />
 
     <fragment
         android:id="@+id/nav_profile"
-        android:name="com.tencongty.projectprm.fragments.OwnerProfileFragment"
+        android:name="com.tencongty.projectprm.activities.parkingowner.OwnerProfileFragment"
         android:label="Hồ sơ" />
 
     <fragment

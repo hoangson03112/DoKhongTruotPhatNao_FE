@@ -1,5 +1,6 @@
 package com.tencongty.projectprm.activities.parkingowner;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -13,29 +14,31 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.tencongty.projectprm.MainActivity;
 import com.tencongty.projectprm.R;
+import com.tencongty.projectprm.activities.common.LoginActivity;
+import com.tencongty.projectprm.utils.TokenManager;
 
 public class ParkingOwner_MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_parking_owner_main);
 
-        // Handle insets nếu có
-        CoordinatorLayout mainLayout = findViewById(R.id.main);
-        if (mainLayout != null) {
-            ViewCompat.setOnApplyWindowInsetsListener(mainLayout, (v, insets) -> {
-                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-                return insets;
-            });
+        TokenManager tokenManager = new TokenManager(this);
+        if (!tokenManager.hasToken()) {
+            // Chưa đăng nhập → chuyển sang LoginActivity
+            Intent intent = new Intent(ParkingOwner_MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish(); // Kết thúc MainActivity để không quay lại được
+            return;
         }
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
+        setContentView(R.layout.activity_parking_owner_main);
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation2);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.nav_host_fragment);
+                .findFragmentById(R.id.nav_host_fragment2);
         if (navHostFragment != null) {
             NavController navController = navHostFragment.getNavController();
             NavigationUI.setupWithNavController(bottomNav, navController);

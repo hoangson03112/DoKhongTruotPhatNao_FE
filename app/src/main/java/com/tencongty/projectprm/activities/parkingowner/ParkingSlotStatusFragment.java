@@ -5,14 +5,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.tencongty.projectprm.R;
 import com.tencongty.projectprm.models.Reservation;
 import com.tencongty.projectprm.models.ReservationResponse;
@@ -27,6 +33,10 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import android.graphics.Color;
+
 
 public class ParkingSlotStatusFragment extends Fragment {
 
@@ -46,6 +56,7 @@ public class ParkingSlotStatusFragment extends Fragment {
         Bundle args = new Bundle();
         args.putString("PARKING_LOT_ID", parkingLotId);
         args.putInt("PARKING_LOT_CAPACITY", capacity);
+        args.putString("PARKING_LOT_NAME", "Tên bãi đỗ nào đó"); // thêm dòng này
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,32 +75,55 @@ public class ParkingSlotStatusFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_parking_slot_status, container, false);
 
-        // Ánh xạ view
+        // Ánh xạ các view chính
         rvSlots = view.findViewById(R.id.rvSlots);
         tvAvailableCount = view.findViewById(R.id.tvAvailableCount);
         tvReservedCount = view.findViewById(R.id.tvReservedCount);
-
-        // Hiển thị tên bãi đỗ
         TextView tvParkingLotName = view.findViewById(R.id.tvParkingLotName);
+        TextView titleText = view.findViewById(R.id.titleText);
+        ImageView btnBack = view.findViewById(R.id.btnBack);
+
+        // Xử lý dữ liệu truyền qua arguments
         if (getArguments() != null) {
             String parkingLotName = getArguments().getString("PARKING_LOT_NAME", "Bãi đỗ xe");
+            capacity = getArguments().getInt("PARKING_LOT_CAPACITY", 100);
+            parkingLotId = getArguments().getString("PARKING_LOT_ID", "");
+
             tvParkingLotName.setText(parkingLotName);
+            titleText.setText("Bãi đỗ của bạn");
         }
 
+        // Xử lý nút quay lại
+        btnBack.setOnClickListener(v -> {
+            NavController navController = NavHostFragment.findNavController(this);
+            navController.popBackStack(); // Trở về Fragment trước
+        });
 
-        // Khởi tạo RecyclerView
+        // Setup RecyclerView
         rvSlots.setLayoutManager(new GridLayoutManager(requireContext(), 5));
-        reservationList = new ArrayList<>(); // đảm bảo danh sách không null
+        reservationList = new ArrayList<>();
         adapter = new ParkingSlotAdapter(requireContext(), reservationList, capacity);
         rvSlots.setAdapter(adapter);
 
-        // Gọi API để load dữ liệu
+        // Load dữ liệu
         loadReservations();
 
+        ImageView imgParkingImage = view.findViewById(R.id.imgParkingImage);
+
+        if (getArguments() != null) {
+            String parkingImageUrl = getArguments().getString("PARKING_LOT_IMAGE", null);
+            if (parkingImageUrl != null && !parkingImageUrl.isEmpty()) {
+                Glide.with(requireContext())
+                        .load(parkingImageUrl)
+                        .placeholder(R.drawable.baseline_image_24)
+                        .error(R.drawable.baseline_image_not_supported_24)
+                        .into(imgParkingImage);
+            } else {
+                imgParkingImage.setVisibility(View.GONE);
+            }
+        }
         return view;
     }
-
-
 
     private void loadReservations() {
         String token = new TokenManager(requireContext()).getToken();
